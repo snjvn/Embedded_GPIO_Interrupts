@@ -17,24 +17,26 @@ int main(void)
     GPIO_PORTF_PUR_R = 0x11;            /* PORTF0 and PORTF4 are pulled up */
 
     NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
-    GPIO_PORTF_IS_R = 0x11; // interrupt sensitivity - edge
+    GPIO_PORTF_IS_R = 0x11; // interrupt sensitivity - level
     GPIO_PORTF_IBE_R = 0x11;
 //    GPIO_PORTF_IEV_R = 0x00;
     GPIO_PORTF_IM_R = 0x11; // unmasking both switches
-    int i = 0;
 
     while(1){
-        int debounce = 0;
-        while(debounce < 1000){debounce ++;} //for debouncing
+//        int debounce = 0;
+//        while(debounce < 1000){debounce ++;} //for debouncing
         NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
+        GPIO_PORTF_IM_R = 0x11; // unmasking both switches
+        GPIO_PORTF_DATA_R = 0x00;
     }
 	return 0;
 }
 
 void GPIOInterrupt(){
-    GPIO_PORTF_DATA_R ^= 0x04;
+    GPIO_PORTF_DATA_R = 0x04;
     NVIC_EN0_R = 0x00000000; // 30th bit controls PORTF
-    int debounce = 0;
-    while(debounce < 1000){debounce ++;} //for debouncing
+    GPIO_PORTF_IM_R = 0x00; // masking both switches
+//    int debounce = 0;
+//    while(debounce < 1000){debounce ++;} //for debouncing
 
 }
