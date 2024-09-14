@@ -17,9 +17,9 @@ int main(void)
     GPIO_PORTF_PUR_R = 0x11;            /* PORTF0 and PORTF4 are pulled up */
 
     NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
-    GPIO_PORTF_IS_R = 0x11; // interrupt sensitivity - level
-//    GPIO_PORTF_IBE_R = 0x11;
-    GPIO_PORTF_IEV_R = 0x00;
+    GPIO_PORTF_IS_R = 0x00; // interrupt sensitivity - edge
+    GPIO_PORTF_IBE_R = 0x00; //Single edge
+    GPIO_PORTF_IEV_R = 0x11; //Rising edge
     GPIO_PORTF_IM_R = 0x11; // unmasking both switches
 
     while(1){
