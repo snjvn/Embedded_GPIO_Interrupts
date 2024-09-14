@@ -18,8 +18,8 @@ int main(void)
 
     NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
     GPIO_PORTF_IS_R = 0x11; // interrupt sensitivity - level
-    GPIO_PORTF_IBE_R = 0x11;
-//    GPIO_PORTF_IEV_R = 0x00;
+//    GPIO_PORTF_IBE_R = 0x11;
+    GPIO_PORTF_IEV_R = 0x00;
     GPIO_PORTF_IM_R = 0x11; // unmasking both switches
 
     while(1){
@@ -33,10 +33,9 @@ int main(void)
 }
 
 void GPIOInterrupt(){
-    GPIO_PORTF_DATA_R = 0x04;
+    GPIO_PORTF_DATA_R = 0x08;
     NVIC_EN0_R = 0x00000000; // 30th bit controls PORTF
     GPIO_PORTF_IM_R = 0x00; // masking both switches
-//    int debounce = 0;
-//    while(debounce < 1000){debounce ++;} //for debouncing
+
 
 }
