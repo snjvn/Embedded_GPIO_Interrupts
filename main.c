@@ -17,9 +17,9 @@ int main(void)
     GPIO_PORTF_PUR_R = 0x11;            /* PORTF0 and PORTF4 are pulled up */
 
     NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
-    GPIO_PORTF_IS_R = 0x10; // sw2 level sensitive; sw1 edge sensitive
-    GPIO_PORTF_IBE_R = 0x00; //Single edge
-    GPIO_PORTF_IEV_R = 0x11; //Rising edge
+    GPIO_PORTF_IS_R = 0x11; // interrupt sensitivity - level
+//    GPIO_PORTF_IBE_R = 0x11;
+    GPIO_PORTF_IEV_R = 0x00;
     GPIO_PORTF_IM_R = 0x11; // unmasking both switches
 
     while(1){
@@ -27,22 +27,13 @@ int main(void)
 //        while(debounce < 1000){debounce ++;} //for debouncing
         NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
         GPIO_PORTF_IM_R = 0x11; // unmasking both switches
-        if ((GPIO_PORTF_DATA_R & 0x08) == 0x08){
-            GPIO_PORTF_DATA_R ^= 0x08;
-        }
-        
+        GPIO_PORTF_DATA_R = 0x00;
     }
-	return 0;
+    return 0;
 }
 
 void GPIOInterrupt(){
-    if(GPIO_PORTF_RIS_R & 0x10){
-        GPIO_PORTF_DATA_R = 0x08;
-    }
-    if(GPIO_PORTF_RIS_R & 0x01){
-        GPIO_PORTF_DATA_R ^= 0x04;
-        GPIO_PORTF_ICR_R = 0x01;
-    }
+    GPIO_PORTF_DATA_R = 0x08;
     NVIC_EN0_R = 0x00000000; // 30th bit controls PORTF
     GPIO_PORTF_IM_R = 0x00; // masking both switches
 
