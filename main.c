@@ -27,7 +27,10 @@ int main(void)
 //        while(debounce < 1000){debounce ++;} //for debouncing
         NVIC_EN0_R = 0x40000000; // 30th bit controls PORTF
         GPIO_PORTF_IM_R = 0x11; // unmasking both switches
-        GPIO_PORTF_DATA_R ^= 0x08;
+        if ((GPIO_PORTF_DATA_R & 0x08) == 0x08){
+            GPIO_PORTF_DATA_R ^= 0x08;
+        }
+        
     }
 	return 0;
 }
